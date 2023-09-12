@@ -35,9 +35,11 @@ import debounce from 'lodash/debounce';
 import {
     useGetCurrentWeatherMutation,
     useGetForecastMutation,
-    useLocationAutocompleteMutation
+    useLocationAutocompleteMutation,
+    useGetGeopositionMutation
 } from '../../features/weather/weatherApiSlice';
 import { Loader, ErrorModal } from '../../components';
+import { usePostFavoritesMutation } from '../../features/user/userApiSlice';
 
 const WeatherDetails = () => {
     const location = useLocation();
@@ -63,6 +65,9 @@ const WeatherDetails = () => {
     const [getCurrentWeather, {}] = useGetCurrentWeatherMutation();
     const [getForecast, {}] = useGetForecastMutation();
     const [locationAutocomplete, {}] = useLocationAutocompleteMutation();
+    const [getGeoposition, {}] = useGetGeopositionMutation();
+    const [coordinates, setCoordinates] = useState({});
+    const [postFavorites] = usePostFavoritesMutation();
 
     const toggleFavorite = () => {
         localIsFavorite
@@ -117,6 +122,28 @@ const WeatherDetails = () => {
             setIsErrorModalOpen(true);
         }
     }, [error]);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                setCoordinates({ latitude, longitude });
+                const res = await getGeoposition({ latitude, longitude });
+                setCityId(res.data.Key);
+                setCity(res.data.EnglishName);
+                setInputValue(res.data.EnglishName);
+            },
+            (error) => {
+                setErrorMessage(error);
+                setIsErrorModalOpen(true);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            }
+        );
+    }, []);
 
     return isLoading && !error && false ? (
         <Loader show={isLoading} />

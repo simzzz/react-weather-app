@@ -11,7 +11,12 @@ Currently, two official plugins are available:
 
 You need to have a .env file with `VITE_WEATHER_KEY` set to an AccuWeather API key in order for the application to work
 
-Commands:
+Commands for frontend:- `npm i`
 
--   `npm i`
 -   `npm run dev`
+
+Commands for backend:
+
+-   `cd ./backend`
+-   `npm i`
+-   `npm start`

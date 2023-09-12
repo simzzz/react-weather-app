@@ -11,9 +11,21 @@ import {
 } from '@mui/material';
 import { selectFavorites } from '../../features/user/userSlice';
 import { useSelector } from 'react-redux';
+import { useGetFavoritesMutation } from '../../features/user/userApiSlice';
 
 const Favorites = () => {
     const navigate = useNavigate();
+    const [getFavorites] = useGetFavoritesMutation();
+
+    // const [favoriteLocations, setFavoriteLocations] = useState([]);
+
+    // useEffect(() => {
+    //     const getFavorites = async () => {
+    //         const { data } = await getFavorites();
+    //         setFavoriteLocations(data);
+    //     };
+    //     getFavorites();
+    // }, []);
     const favoriteLocations = Object.values(useSelector(selectFavorites));
 
     const handleListItemClick = (location) => {

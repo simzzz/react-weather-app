@@ -4,7 +4,6 @@ import { weatherApiSlice } from './weatherApiSlice';
 const initialState = {
     currentWeather: {},
     forecast: [],
-    locationAutocomplete: [],
     isLoading: false,
     error: null
 };
@@ -34,7 +33,7 @@ export const weatherSlice = createSlice({
             weatherApiSlice.endpoints.locationAutocomplete.matchRejected,
             (state, { payload }) => {
                 state.autocomplete = [];
-                state.error = `Error ${payload.status} while fetching autocomplete locations: ${payload.data.Message}`;
+                state.error = `Error ${payload.status} while fetching autocomplete locations: ${payload.data?.Message}`;
             }
         );
         builder.addMatcher(
@@ -56,7 +55,7 @@ export const weatherSlice = createSlice({
             weatherApiSlice.endpoints.getCurrentWeather.matchRejected,
             (state, { payload }) => {
                 state.currentWeather = {};
-                state.error = `Error ${payload.status} while fetching current weather: ${payload.data.Message}`;
+                state.error = `Error ${payload.status} while fetching current weather: ${payload.data?.Message}`;
             }
         );
         builder.addMatcher(weatherApiSlice.endpoints.getForecast.matchPending, (state, action) => {
@@ -75,7 +74,7 @@ export const weatherSlice = createSlice({
             weatherApiSlice.endpoints.getForecast.matchRejected,
             (state, { payload }) => {
                 state.autocomplete = [];
-                state.error = `Error ${payload.status} while fetching 5-day weather forecast: ${payload.data.Message}`;
+                state.error = `Error ${payload.status} while fetching 5-day weather forecast: ${payload.data?.Message}`;
             }
         );
     }

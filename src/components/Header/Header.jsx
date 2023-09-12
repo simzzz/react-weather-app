@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     AppBar,
     Button,
@@ -14,6 +14,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { changeMode, selectMode, changeUnit, selectUnit } from '../../features/user/userSlice';
+// import { useGetSettingsMutation, usePostSettingsMutation } from '../../features/user/userApiSlice';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -21,9 +22,30 @@ const Header = () => {
     const mode = useSelector(selectMode);
     const unit = useSelector(selectUnit);
 
-    const handleUnitChange = (event, newUnit) => {
+    // const [getSettings] = useGetSettingsMutation();
+    // const [postSettings] = usePostSettingsMutation();
+    // const [mode, setMode] = useState('dark');
+    // const [unit, setUnit] = useState('metric');
+
+    // useEffect(() => {
+    //     const getSettings = async () => {
+    //         const { data } = await getSettings();
+    //         dispatch(changeMode(data.mode));
+    //         dispatch(changeUnit(data.unit));
+    //     }
+    // }, []);
+
+    const handleUnitChange = async (event, newUnit) => {
         if (newUnit !== null) {
             dispatch(changeUnit(newUnit));
+            // await postSettings({ mode, unit: newUnit });
+        }
+    };
+
+    const handleModeChange = async (event, newMode) => {
+        if (newMode !== null) {
+            dispatch(changeMode());
+            // await postSettings({ mode: newMode, unit });
         }
     };
 

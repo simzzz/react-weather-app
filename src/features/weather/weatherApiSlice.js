@@ -33,6 +33,16 @@ export const weatherApiSlice = appApi.injectEndpoints({
                     metric: true
                 }
             })
+        }),
+        getGeoposition: builder.mutation({
+            query: (coordinates) => ({
+                url: 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search',
+                method: 'GET',
+                params: {
+                    apikey,
+                    q: `${coordinates.latitude},${coordinates.longitude}`
+                }
+            })
         })
     })
 });
@@ -40,5 +50,6 @@ export const weatherApiSlice = appApi.injectEndpoints({
 export const {
     useLocationAutocompleteMutation,
     useGetCurrentWeatherMutation,
-    useGetForecastMutation
+    useGetForecastMutation,
+    useGetGeopositionMutation
 } = weatherApiSlice;
